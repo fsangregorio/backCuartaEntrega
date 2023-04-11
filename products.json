@@ -1,0 +1,55 @@
+[{  "id":1,
+    "code":"ABC1",
+    "title":"Raqueta",
+    "description":"Raqueta de Tenis",
+    "price":18000,
+    "status":true,
+    "category":"Tenis",
+    "stock":999,
+    "thumbnails":[]
+},
+
+{  "id":2,
+    "code":"ABC2",
+    "title":"Pelota",
+    "description":"Pelota de futbol",
+    "price":15000,
+    "status":true,
+    "category":"Futbol",
+    "stock":999,
+    "thumbnails":[]
+},
+
+{   "id":3,
+    "code":"ABC3",
+    "title":"Patines",
+    "description":"Patines tipo rollers",
+    "price":20000,
+    "status":true,
+    "category":"Patinaje",
+    "stock":999,
+    "thumbnails":[]
+},
+
+{   "id":4,
+    "code":"ABC4",
+    "title":"Remera",
+    "description":"Remera Nike",
+    "price":10000,
+    "status":true,
+    "category":"Indumentaria",
+    "stock":999,
+    "thumbnails":[]
+},
+
+{   "id":5,
+    "code":"ABC5",
+    "title":"Pantalón Adidas",
+    "description":"Pantalon Negro Adidas",
+    "price":8000,
+    "status":true,
+    "category":"Indumentaria",
+    "stock":999,
+    "thumbnails":[]
+}
+]

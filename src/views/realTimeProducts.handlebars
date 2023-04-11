@@ -1,0 +1,158 @@
+<section id='PRODUCTS'>
+
+<h1 class="mx-auto text-center" style="width: 500px;">{{sectionTitle}}</h1>
+<div class="d-flex flex-wrap">
+<div class="container-fluid">
+  <div class="row align-items-start">
+<div class="col-2 sticky-top">
+<form id="addProduct" action="" class="card">
+  <div class="card-body">
+  <h5 class="card-title">Add Product</h5>
+  <div class="form-group">
+    <input type="text" class="form-control" id="title" placeholder="Title">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="description" placeholder="description">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="code" placeholder="code">
+  </div>
+  <div class="form-group">
+    <input type="number" class="form-control" id="price" placeholder="price">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="status" placeholder="status">
+  </div>
+  <div class="form-group">
+    <input type="number" class="form-control" id="stock" placeholder="stock">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="category" placeholder="category">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="thumbnails" placeholder="thumbnails">
+  </div>
+  <button type="submit" class="btn btn-primary">Add Product</button>
+  </div>
+</form>
+
+<form id="deleteProduct" action="" class="card">
+   <div class="card-body">
+    <h5 class="card-title">Delete Product</h5>
+  <div class="form-group">
+    <input type="number" class="form-control" id="productId" placeholder="Product ID">
+  </div>
+  <button type="submit" class="btn btn-primary">Delete Product</button>
+  </div>
+</form>
+</div>
+<div class="col-10">
+  <table id="productList" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Code</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Category</th>
+      <th scope="col">Thumbnails</th>
+      <th scope="col">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr class="productId-{{this.id}}">
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.code}}</td>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.price}}</td>
+      <td>{{this.status}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.thumbnails}}</td>
+      <td><a href="#" onclick="deleteBtn({{this.id}})" class="text-underline text-danger">Remove</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+</div>
+</div>
+</div>
+ </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script>
+  const socket = io()
+  function deleteBtn(productId){
+    socket.emit('deleteProduct', productId);
+  }
+  const addProductForm = document.getElementById('addProduct');
+    addProductForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const code = document.getElementById("code").value;
+      const price = parseInt(document.getElementById("price").value);
+      const status = document.getElementById("status").value;
+      const stock = parseInt(document.getElementById("stock").value);
+      const category = document.getElementById("category").value;
+      const thumbnails = [document.getElementById("thumbnails").value];
+      
+      newProduct = {
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+    }
+      
+      socket.emit('addProduct', newProduct);
+  })
+  const deleteProductForm = document.getElementById('deleteProduct')
+  deleteProductForm.addEventListener('submit', function(evemt){
+    event.preventDefault()
+    let productId = parseInt(document.getElementById("productId").value)
+    console.log(`Delete product ${productId} send!`)
+    socket.emit('deleteProduct', productId);
+  })
+  socket.on('productAdded', ({
+      id,
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+    }) => {
+    
+    let productList = document.getElementById('productList');
+
+    productList.innerHTML = `${productList.innerHTML} <tr class="productId-${id}">
+      <th scope="row">${id}</th>
+      <td>${code}</td>
+      <td>${title}</td>
+      <td>${description}</td>
+      <td>${price}</td>
+      <td>${status}</td>
+      <td>${stock}</td>
+      <td>${category}</td>
+      <td>${thumbnails}</td>
+      <td><a href="#" onclick="deleteBtn(${id})" class="text-underline text-danger">Remove</a></td>
+    </tr>`;
+  });
+
+  socket.on('productDeleted', (productId)=>{
+    let product = document.querySelectorAll(`#productList .productId-${productId}`)
+     product.forEach(p => p.remove());
+  })
+</script>

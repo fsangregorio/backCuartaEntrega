@@ -1,0 +1,34 @@
+
+<h1 class="mx-auto text-center" style="width: 500px;">{{sectionTitle}}</h1>
+<table id="productList" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Code</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Category</th>
+      <th scope="col">Thumbnails</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr class="productId-{{this.id}}">
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.code}}</td>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.price}}</td>
+      <td>{{this.status}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.thumbnails}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script>
